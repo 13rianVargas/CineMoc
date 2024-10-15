@@ -1,0 +1,10 @@
+
+.metadata/
+
+.vscode/
+
+/bin/
+
+.DS_Store
+
+.settings/
