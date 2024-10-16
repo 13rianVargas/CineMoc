@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public class Cartelera {
 	private LocalDateTime fecha;
-	private ArrayList<Funcion> listaFunciones;
+	private ArrayList<Pelicula> listaPeliculas;
 
 	
 	public Cartelera() {
 	}
 
-	public Cartelera(LocalDateTime fecha, ArrayList<Funcion> listaFunciones) {
+	public Cartelera(LocalDateTime fecha, ArrayList<Pelicula> listaPeliculas) {
 		this.fecha = fecha;
-		this.listaFunciones = listaFunciones;
+		this.listaPeliculas = new ArrayList<>();
 	}
 
 	public LocalDateTime getFecha() {
@@ -24,12 +24,12 @@ public class Cartelera {
 		this.fecha = fecha;
 	}
 
-	public ArrayList<Funcion> getListaFunciones() {
-		return listaFunciones;
+	public ArrayList<Pelicula> getListaPeliculas() {
+		return listaPeliculas;
 	}
 
-	public void setListaFunciones(ArrayList<Funcion> listaFunciones) {
-		this.listaFunciones = listaFunciones;
+	public void setListaPeliculas(ArrayList<Pelicula> listaPeliculas) {
+		this.listaPeliculas = listaPeliculas;
 	}
 
 	@Override

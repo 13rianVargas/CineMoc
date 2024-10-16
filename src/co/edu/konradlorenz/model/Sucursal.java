@@ -2,17 +2,19 @@ package co.edu.konradlorenz.model;
 
 import java.util.ArrayList;
 
-public class Sucursal {
+public class Sucursal implements Promocion{
 	private String nombre, direccion, telefono, descripcion;
 	private double descuento;
 	protected Cartelera objCartelera;
-	private ArrayList<SalaCine> listaSalasCine= new ArrayList<>();
+	private ArrayList<SalaCine> listaSalasCine;
+	private ArrayList<Funcion> listaFunciones;
+	
 	
 	public Sucursal() {		
 	}
 
 	public Sucursal(String nombre, String direccion, String telefono, String descripcion, double descuento,
-			Cartelera objCartelera, ArrayList<SalaCine> listaSalasCine) {
+			Cartelera objCartelera, ArrayList<SalaCine> listaSalasCine, ArrayList<Funcion> listaFunciones) {
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.telefono = telefono;
@@ -20,6 +22,7 @@ public class Sucursal {
 		this.descuento = descuento;
 		this.objCartelera = objCartelera;
 		this.listaSalasCine = listaSalasCine;
+		this.listaFunciones = listaFunciones;
 	}
 
 	public String getNombre() {
@@ -78,12 +81,24 @@ public class Sucursal {
 		this.listaSalasCine = listaSalasCine;
 	}
 
+	public ArrayList<Funcion> getListaFunciones() {
+		return listaFunciones;
+	}
+
+	public void setListaFunciones(ArrayList<Funcion> listaFunciones) {
+		this.listaFunciones = listaFunciones;
+	}
+
 	@Override
 	public String toString() {
 		return "Sucursal [nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + ", descripcion="
 				+ descripcion + ", descuento=" + descuento + "]";
 	}
-	
-	
-	
+
+	@Override
+	public void calcPromo(double descuento, String descripcion) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'calcPromo'");
+	}
+
 }
