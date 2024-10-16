@@ -22,6 +22,7 @@ public class Vista {
     }
     
     public static int menuPrincipal(){
+        espacioVisual();
         System.out.println(
                         " <> <> <> <> CINE-MOC <> <> <> <> \n\n" +
                         "       [1] | Cartelera            \n" +
@@ -33,6 +34,7 @@ public class Vista {
     }
 
     public static int menuCartelera(){
+        espacioVisual();
         System.out.println(
                         " <> <> <> <>  Cartelera  <> <> <> \n\n" +
                         "    [1] | Cartelera por sucursal  \n" +
@@ -43,6 +45,7 @@ public class Vista {
     }
 
     public static int menuPeliculas(){
+        espacioVisual();
         System.out.println(
                         " <> <> <> <>  Películas  <> <> <> \n\n" +
                         "    [1] | Agregar nueva película  \n" +
@@ -53,6 +56,7 @@ public class Vista {
     }
 
     public static void mostrarSucursales(ArrayList<Sucursal> lista) {
+        espacioVisual();
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> ");
         for (int i = 0; i < lista.size() ; i++) {
             System.out.println("   >> [" + (i+1) +"] " + lista.get(i).getNombre());
@@ -61,6 +65,7 @@ public class Vista {
     }
 
     public static void mostrarPeliculas(ArrayList<Pelicula> lista) {
+        espacioVisual();
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> ");
         for (int i = 0; i < lista.size() ; i++) {
             System.out.println("   >> [" + (i+1) +"] " + lista.get(i).getTituloOriginal());
@@ -69,6 +74,7 @@ public class Vista {
     }
 
     public static void mostrarFunciones(ArrayList<Funcion> lista) {
+        espacioVisual();
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
         for (int i = 0; i < lista.size() ; i++) {
             System.out.println("   >> [" + (i+1) +"] Sala No: " + lista.get(i).getObjSalaCine() + ". Película: " + lista.get(i).getObjPelicula().getTituloOriginal() +". Día: "+ lista.get(i).getDia() +". Hora: "+ lista.get(i).getHora() + ".");
@@ -80,10 +86,15 @@ public class Vista {
         
         ArrayList<Pelicula> lista = cartelera.getListaPeliculas();
 
+        espacioVisual();
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
         for (int i = 0; i < lista.size() ; i++) {
             System.out.println("   >> [" + (i+1) +"] " + lista.get(i).getTituloOriginal());
         }
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+    }
+    
+    public static void espacioVisual(){
+        System.out.println("\n\n\n\n\n\n\n\n\n\n");
     }
 }
