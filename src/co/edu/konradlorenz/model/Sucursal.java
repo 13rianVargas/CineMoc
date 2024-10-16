@@ -97,8 +97,7 @@ public class Sucursal implements Promocion{
 
 	@Override
 	public void calcPromo(double descuento, String descripcion) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcPromo'");
+		
 	}
 
 }
