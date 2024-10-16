@@ -51,7 +51,7 @@ public class Funcion {
 
 	@Override
 	public String toString() {
-		return "Funcion [hora=" + hora + ", dia=" + dia + ", objSalaCine=" + objSalaCine + "]";
+		return "Funcion [Hora=" + hora + ", Día=" + dia + ", Sala de Cine=" + objSalaCine + "]";
 	}
 	
 }

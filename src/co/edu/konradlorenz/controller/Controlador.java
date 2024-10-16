@@ -44,30 +44,8 @@ public class Controlador {
 
                         Vista.mostrarPeliculas(listaPeliculasGlobales);
                         String nombrePelicula = Vista.pedirString("  >> Ingrese el nombre de la película: ");//se puede implementar equalsIgnoreCase en el futuro
-                        
-                        ArrayList<Sucursal> sucursalesTemp = new ArrayList<>();
-                        
-                        sucursalesTemp = recorrerSucursales(listaSucursales, nombrePelicula);
-                        
-                        //TODO: mostrar sucursales donde está la peli con fecha
 
-                        for (int i = 0; i < sucursalesTemp.size() ; i++) {
-                            for (int j = 0; j < sucursalesTemp.size() ; j++) {
-                                
-                                ///FIXME: Error en el if porque no hay funciones creadas, entonces agregué método crearFunciones() al final
-                                if(sucursalesTemp.get(i).getListaFunciones().get(j).getObjPelicula().getTituloOriginal().equals(nombrePelicula)){
-                                    String imprimirFuncion = sucursalesTemp.get(i).getListaFunciones().toString();
-                                    Vista.mostrarMensaje(imprimirFuncion);
-                                }
-                                //*/
-
-                                Vista.mostrarMensaje("Se supone que ya imprimió las funciones"); //TODO: Borrar después
-                            }
-                        }
-
-                        //peliSelec = seleccionarPelicula();
-                        
-                        //sucursalSelec = seleccionarSucursal(sucursalesTemp);
+                        recorrerSucursales(nombrePelicula);
                     
                         break;
                     default:
@@ -131,22 +109,6 @@ public class Controlador {
 
     //¿Se escoge Sala de cine?
 
-    public ArrayList<Sucursal> recorrerSucursales(ArrayList<Sucursal> listaSucursales, String tituloPeliculaSelec){
-
-        ArrayList<Sucursal> sucursalesTemp = new ArrayList<>();
-
-        for (int i = 0 ; i < listaSucursales.get(i).getObjCartelera().getListaPeliculas().size() ; i++) {
-            for (int j = 0 ; j < listaSucursales.get(i).getObjCartelera().getListaPeliculas().size() ; j++) {
-                if(listaSucursales.get(i).getObjCartelera().getListaPeliculas().get(j).getTituloOriginal().equals(tituloPeliculaSelec)){
-                    sucursalesTemp.add(listaSucursales.get(i));
-                }
-            }
-        }
-
-        return sucursalesTemp;
-    }
-    //recorrerSucursales
-
     public Sucursal nuevaSucursal(String nombre, String direccion, String telefono, String descripcion, double descuento,
     Cartelera objCartelera, ArrayList<SalaCine> listaSalasCine, ArrayList<Funcion> listaFunciones){
         
@@ -198,7 +160,41 @@ public class Controlador {
         return nuevoActor;
     }
 
-    public void crearEjemplos() {//AI Generated
+    public void recorrerSucursales(String nombrePelicula) {
+        boolean peliculaEncontrada = false;
+        
+        for (Sucursal sucursal : listaSucursales) {
+            ArrayList<Funcion> funciones = sucursal.getListaFunciones();
+            
+            if (funciones != null && !funciones.isEmpty()) {
+                boolean peliculaEnSucursal = false;
+                
+                String horario = "No hay funciones de esta película en esta sucursal.";
+                
+                for (Funcion funcion : funciones) {
+                    Pelicula pelicula = funcion.getObjPelicula();
+                    
+                    if (pelicula != null && pelicula.getTituloOriginal().equalsIgnoreCase(nombrePelicula.trim())) {
+                        peliculaEnSucursal = true;
+                        peliculaEncontrada = true;
+                        horario = "Hora de Inicio: " + funcion.getHora() + "\n";
+                    }
+                }
+                
+                if (peliculaEnSucursal) {
+                    Vista.mostrarMensaje(nombrePelicula + "\n" + "Sucursal: " + sucursal.getNombre() +"\n"+ horario);
+                }
+            }
+        }
+    
+        if (!peliculaEncontrada) {
+            Vista.mostrarMensaje("La película '" + nombrePelicula + "' no está disponible en ninguna sucursal.");
+        }
+    }
+    //mostrarSucursalesConPelicula
+
+    public void crearEjemplos() {
+
         // Crear Director y Actor
         Director director1 = nuevoDirector("Christopher Nolan", "Reino Unido", 10);
         ArrayList<String> personajesActor1 = new ArrayList<>();
@@ -219,6 +215,8 @@ public class Controlador {
         listaPeliculasGlobales.add(pelicula2);
         listaPeliculasGlobales.add(pelicula3);
 
+        String nombreSucursales[] = {"Plus","Mayor","Atlantis","Eden","Plaza Mayor","Embajador","Tron"};
+        
         // Crear 7 Sucursales
         for (int i = 1; i <= 7; i++) {
             // Crear 3 SalaCine por Sucursal
@@ -234,15 +232,16 @@ public class Controlador {
             peliculasCartelera.add(pelicula3);
             Cartelera cartelera = nuevaCartelera(LocalDateTime.now(), peliculasCartelera);
 
-            // Crear 3 Funciones por sucursal
+            // Crear Funciones por sucursal
             ArrayList<Funcion> listaFunciones = new ArrayList<>();
             listaFunciones.add(nuevaFuncion("15:00", 1, pelicula1, listaSalas.get(0)));
             listaFunciones.add(nuevaFuncion("18:00", 1, pelicula2, listaSalas.get(1)));
             listaFunciones.add(nuevaFuncion("21:00", 1, pelicula3, listaSalas.get(2)));
 
             // Crear Sucursal con los datos
-            Sucursal nuevaSucursal = nuevaSucursal("Sucursal " + i, "Dirección " + i, "Teléfono " + i, "Descripción " + i, 0.1 * i, cartelera, listaSalas, listaFunciones);
+            Sucursal nuevaSucursal = nuevaSucursal("CineMoc " + nombreSucursales[i-1], "Dirección " + i, "Teléfono " + i, "Descripción " + i, 0.1 * i, cartelera, listaSalas, listaFunciones);
             listaSucursales.add(nuevaSucursal);
+            
         }
         //for
     }
