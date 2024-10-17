@@ -13,7 +13,7 @@ public class Cartelera {
 
 	public Cartelera(LocalDateTime fecha, ArrayList<Pelicula> listaPeliculas) {
 		this.fecha = fecha;
-		this.listaPeliculas = new ArrayList<>();
+		this.listaPeliculas = listaPeliculas;
 	}
 
 	public LocalDateTime getFecha() {
