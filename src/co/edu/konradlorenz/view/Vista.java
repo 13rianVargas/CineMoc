@@ -24,7 +24,7 @@ public class Vista {
     public static int menuPrincipal(){
         espacioVisual();
         System.out.println(
-                        " <> <> <> <> CINE-MOC <> <> <> <> \n\n" +
+                        " <> <> <> <> CINE-MOC <> <> <> <> \n" +
                         "       [1] | Cartelera            \n" +
                         "       [2] | Películas            \n" +
                         "       [3] | Sucursales           \n" +
@@ -36,7 +36,7 @@ public class Vista {
     public static int menuCartelera(){
         espacioVisual();
         System.out.println(
-                        " <> <> <> <>  Cartelera  <> <> <> \n\n" +
+                        " <> <> <> <>  Cartelera  <> <> <> \n" +
                         "    [1] | Cartelera por sucursal  \n" +
                         "    [2] | Seleccionar Película    \n" +
                         "    [0] | Salir                   \n" +
@@ -47,10 +47,10 @@ public class Vista {
     public static int menuPeliculas(){
         espacioVisual();
         System.out.println(
-                        " <> <> <> <>  Películas  <> <> <> \n\n" +
+                        " <> <> <> <> Película <> <> <> <> \n" +
                         "    [1] | Agregar nueva película  \n" +
                         "    [2] | Mostrar películas       \n" +
-                        "    [0] | Salir                   \n\n" +
+                        "    [0] | Salir                   \n" +
                         " <> <> <> <> <> <> <> <> <> <> <> \n");
         return Integer.parseInt(Vista.pedirString(" >> Ingrese una opción: "));
     }
@@ -92,6 +92,18 @@ public class Vista {
             System.out.println("   >> [" + (i+1) +"] " + lista.get(i).getTituloOriginal());
         }
         System.out.println(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+    }
+
+    public static void mostrarSalasCine(ArrayList<Sucursal> listaSucursales){
+        espacioVisual();
+        System.out.println(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+        for (int i = 0; i < listaSucursales.size() ; i++) {
+            System.out.println("\n[" + listaSucursales.get(i).getNombre() + "]");
+            for (int j = 0; j < listaSucursales.get(i).getListaSalasCine().size() ; j++) {
+                System.out.println(" >> Número de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNumero() + ", Nombre de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNombre() + ", Sillas disponibles: " + listaSucursales.get(i).getListaSalasCine().get(j).getCantSillas());
+            }
+        }
+        System.out.println("\n <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
     }
     
     public static void espacioVisual(){
