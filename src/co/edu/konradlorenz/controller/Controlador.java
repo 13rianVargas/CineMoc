@@ -7,135 +7,197 @@ import co.edu.konradlorenz.model.*;
 import co.edu.konradlorenz.view.Vista;
 
 public class Controlador {
-
-    private Sucursal sucursalSelec;
+    
     private int key;
 
-    public ArrayList<Sucursal> listaSucursales = new ArrayList<>();
-    public ArrayList<Pelicula> listaPeliculasGlobales = new ArrayList<>();
+    private ArrayList<Sucursal> listaSucursales = new ArrayList<>();
+    private ArrayList<Pelicula> listaPeliculasGlobales = new ArrayList<>();
 
     public void run() {
-        //PASOS:
 
-        // Crear ejemplos base
-            crearEjemplos();
-        //*/
+        crearEjemplos();
 
-        //1.
-        key = Vista.menuPrincipal();
+        while(true){
+        
+            key = Vista.menuPrincipal();
 
-        switch (key) {
-            case 1:
-                
-                key = Vista.menuCartelera();
-
-                switch (key) {
-                    case 1:
-                        sucursalSelec = seleccionarSucursal(listaSucursales);
-                        Vista.mostrarCartelera(sucursalSelec.getObjCartelera());
-                        break;
-                    case 2:
-
-                        Vista.mostrarPeliculas(listaPeliculasGlobales);
-                        String nombrePelicula = Vista.pedirString("  >> Ingrese el nombre de la película: ");//se puede implementar equalsIgnoreCase en el futuro
-
-                        recorrerSucursales(nombrePelicula);
+            switch (key) {
+                case 1://Principal - Cartelera
                     
-                        break;
-                    case 0:
-                        Vista.mostrarMensaje("ADIÓS");
-                        System.exit(0);
-                        break;
-                    default:
-                        Vista.mostrarMensaje("Opción no válida");
-                        break;
-                }
+                    key = Vista.menuCartelera();
 
-                break;
-            case 2:
+                    switch (key) {
+                        case 1://Cartelera - Cartelera por sucursal
+                            Sucursal sucursalSelec = seleccionarSucursal(listaSucursales);
+                            mostrarCartelera(sucursalSelec.getObjCartelera());
+                            break;
+                        case 2://Cartelera - Seleccionar película
 
-                key = Vista.menuPeliculas();
+                            mostrarPeliculas(listaPeliculasGlobales);
+                            String nombrePelicula = Vista.pedirString("  >> Ingrese el nombre de la película: ");//se puede implementar equalsIgnoreCase en el futuro
 
-                switch (key) {
-                    case 1:
-                        byte id = Byte.parseByte(Vista.pedirString(" >> Ingrese el id de la película: "));
-                        int duracion = Integer.parseInt(Vista.pedirString(" >> Ingrese la duración de la película: "));
-                        String paisOrigen = Vista.pedirString(" >> Ingrese país de origen de la película: ");
-                        String año = Vista.pedirString(" >> Ingrese el año de la película: ");
-                        String tituloOriginal = Vista.pedirString(" >> Ingrese el título original de la película: ");
-                        String idioma = Vista.pedirString(" >> Ingrese el idioma de la película: ");
-                        String sinopsis = Vista.pedirString(" >> Ingrese la sinopsis de la película: ");
-
-                        boolean subtitulos = false;
-                        String sub = Vista.pedirString(" >> ¿La película tiene subtitulos? (Y/N) ");
-                        if (sub.equals("Y")) {
-                            subtitulos = true;
-                        }else if(sub.equals("N")){
-                            subtitulos = false;
-                        }else{
+                            recorrerSucursales(nombrePelicula);
+                        
+                            break;
+                        case 0://Cartelera - Salir
+                            Vista.mostrarMensaje("ADIÓS");
+                            System.exit(0);
+                            break;
+                        default:
                             Vista.mostrarMensaje("Opción no válida");
-                        }
+                            break;
+                    }
 
-                        String nombre = Vista.pedirString(" >> Ingrese el nombre del Director: ");
-                        String nacionalidad = Vista.pedirString(" >> Ingrese la nacionalidad del Director: ");
-                        int cantPeliculas = Integer.parseInt(Vista.pedirString(" >> Ingrese cantidad de películas del Director: "));
-                        Director director = nuevoDirector(nombre, nacionalidad, cantPeliculas);
+                    break;
+                case 2://Principal - Películas
 
-                        ArrayList<String> personajesActor = new ArrayList<>();
-                        String personaje = Vista.pedirString(" >> Ingrese el personaje del actor: ");
-                        personajesActor.add(personaje);
+                    key = Vista.menuPeliculas();
 
-                        nombre = Vista.pedirString(" >> Ingrese el nombre del Actor: ");
-                        nacionalidad = Vista.pedirString(" >> Ingrese la nacionalidad del Actor: ");
-                        cantPeliculas = Integer.parseInt(Vista.pedirString(" >> Ingrese cantidad de películas del Actor: "));
-                        Actor actor = new Actor(nombre, nacionalidad, cantPeliculas, personajesActor);
+                    switch (key) {
+                        case 1://Películas - Agregar nueva película
+                            byte id = Byte.parseByte(Vista.pedirString(" >> Ingrese el id de la película: "));
+                            int duracion = Integer.parseInt(Vista.pedirString(" >> Ingrese la duración de la película: "));
+                            String paisOrigen = Vista.pedirString(" >> Ingrese país de origen de la película: ");
+                            String año = Vista.pedirString(" >> Ingrese el año de la película: ");
+                            String tituloOriginal = Vista.pedirString(" >> Ingrese el título original de la película: ");
+                            String idioma = Vista.pedirString(" >> Ingrese el idioma de la película: ");
+                            String sinopsis = Vista.pedirString(" >> Ingrese la sinopsis de la película: ");
 
-                        ArrayList<Realizador> realizadores = new ArrayList<>();
-                        realizadores.add(director);
-                        realizadores.add(actor);
+                            boolean subtitulos = false;
+                            boolean getBoolean = false;
+                            while (!getBoolean) {
+                                String sub = Vista.pedirString(" >> ¿La película tiene subtitulos? (Y/N) ");
+                                if (sub.equalsIgnoreCase("Y")) {
+                                    subtitulos = true;
+                                    getBoolean = true;
+                                }else if(sub.equalsIgnoreCase("N")){
+                                    subtitulos = false;
+                                    getBoolean = true;
+                                }else{
+                                    Vista.mostrarMensaje("Opción no válida");
+                                    getBoolean = false;
+                                }
+                            }
 
-                        Pelicula pelicula = nuevaPelicula(id, duracion, paisOrigen, año, tituloOriginal, idioma, sinopsis, subtitulos, realizadores);
-                        listaPeliculasGlobales.add(pelicula);
+                            String nombre = Vista.pedirString(" >> Ingrese el nombre del Director: ");
+                            String nacionalidad = Vista.pedirString(" >> Ingrese la nacionalidad del Director: ");
+                            int cantPeliculas = Integer.parseInt(Vista.pedirString(" >> Ingrese cantidad de películas del Director: "));
+                            Director director = nuevoDirector(nombre, nacionalidad, cantPeliculas);
 
-                        break;
-                    case 2:
-                        Vista.mostrarPeliculas(listaPeliculasGlobales);
-                        break;
-                    case 0:
-                        Vista.mostrarMensaje("ADIÓS");
-                        System.exit(0);
-                        break;
-                    default:
-                        Vista.mostrarMensaje("Opción no válida");
-                        break;
-                }
+                            ArrayList<String> personajesActor = new ArrayList<>();
+                            String personaje = Vista.pedirString(" >> Ingrese el personaje del actor: ");
+                            personajesActor.add(personaje);
 
-                break;
-            case 3:
-                
-                Vista.mostrarSalasCine(listaSucursales);
+                            nombre = Vista.pedirString(" >> Ingrese el nombre del Actor: ");
+                            nacionalidad = Vista.pedirString(" >> Ingrese la nacionalidad del Actor: ");
+                            cantPeliculas = Integer.parseInt(Vista.pedirString(" >> Ingrese cantidad de películas del Actor: "));
+                            Actor actor = new Actor(nombre, nacionalidad, cantPeliculas, personajesActor);
 
-                break;
-            case 0:
-                Vista.mostrarMensaje("ADIÓS");
-                System.exit(0);
-                break;
-            default:
-                Vista.mostrarMensaje("Opción no válida");
-                break;
+                            ArrayList<Realizador> realizadores = new ArrayList<>();
+                            realizadores.add(director);
+                            realizadores.add(actor);
 
+                            Pelicula pelicula = nuevaPelicula(id, duracion, paisOrigen, año, tituloOriginal, idioma, sinopsis, subtitulos, realizadores);
+                            listaPeliculasGlobales.add(pelicula);
+
+                            break;
+                        case 2://Películas - Mostrar películas
+                            mostrarPeliculas(listaPeliculasGlobales);
+                            break;
+                        case 0://Películas - Salir
+                            Vista.mostrarMensaje("ADIÓS");
+                            System.exit(0);
+                            break;
+                        default:
+                            Vista.mostrarMensaje("Opción no válida");
+                            break;
+                    }
+
+                    break;
+                case 3://Principal - Cartelera
+                    
+                    mostrarSalasCine(listaSucursales);
+
+                    break;
+                case 0://Principal - Salir
+                    Vista.mostrarMensaje("ADIÓS");
+                    System.exit(0);
+                    break;
+                default:
+                    Vista.mostrarMensaje("Opción no válida");
+                    break;
+
+            }
+            //switch
         }
-        //switch
+        //while
     }
     //run
 
     public Sucursal seleccionarSucursal(ArrayList<Sucursal> lista){
         
-        Vista.mostrarSucursales(lista);
+        mostrarSucursales(lista);
         int seleccion = Integer.parseInt(Vista.pedirString(" >> Ingrese una opción: "));
 
         return lista.get(seleccion-1);
     }
+    //seleccionarSucursal
+
+    public void mostrarSucursales(ArrayList<Sucursal> lista) {
+        Vista.espacioVisual();
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> ");
+        for (int i = 0; i < lista.size() ; i++) {
+            Vista.mostrarMensaje("   >> [" + (i+1) +"] " + lista.get(i).getNombre());
+        }
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> ");
+    }
+    //mostrarSucursales
+
+    public void mostrarPeliculas(ArrayList<Pelicula> lista) {
+        Vista.espacioVisual();
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> ");
+        for (int i = 0; i < lista.size() ; i++) {
+            Vista.mostrarMensaje("   >> " + lista.get(i).getTituloOriginal());
+        }
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> ");
+    }
+    //mostrarPeliculas
+
+    public void mostrarFunciones(ArrayList<Funcion> lista) {
+        Vista.espacioVisual();
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+        for (int i = 0; i < lista.size() ; i++) {
+            Vista.mostrarMensaje("   >> [" + (i+1) +"] Sala No: " + lista.get(i).getObjSalaCine() + ". Película: " + lista.get(i).getObjPelicula().getTituloOriginal() +". Día: "+ lista.get(i).getDia() +". Hora: "+ lista.get(i).getHora() + ".");
+        }
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+    }
+    //mostrarFunciones
+
+    public void mostrarCartelera(Cartelera cartelera) {
+        
+        ArrayList<Pelicula> lista = cartelera.getListaPeliculas();
+
+        Vista.espacioVisual();
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+        for (int i = 0; i < lista.size() ; i++) {
+            Vista.mostrarMensaje("   >> [" + (i+1) +"] " + lista.get(i).getTituloOriginal());
+        }
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+    }
+    //mostrarCartelera
+
+    public void mostrarSalasCine(ArrayList<Sucursal> listaSucursales){
+        Vista.espacioVisual();
+        Vista.mostrarMensaje(" <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+        for (int i = 0; i < listaSucursales.size() ; i++) {
+            Vista.mostrarMensaje("\n[" + listaSucursales.get(i).getNombre() + "]");
+            for (int j = 0; j < listaSucursales.get(i).getListaSalasCine().size() ; j++) {
+                Vista.mostrarMensaje(" >> Número de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNumero() + ", Nombre de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNombre() + ", Sillas disponibles: " + listaSucursales.get(i).getListaSalasCine().get(j).getCantSillas());
+            }
+        }
+        Vista.mostrarMensaje("\n <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
+    }
+    //mostrarSalasCine
 
     public Sucursal nuevaSucursal(String nombre, String direccion, String telefono, String descripcion, double descuento,
     Cartelera objCartelera, ArrayList<SalaCine> listaSalasCine, ArrayList<Funcion> listaFunciones){
@@ -144,6 +206,7 @@ public class Controlador {
 
         return nuevaSucursal;
     }
+    //nuevaSucursal
 
     public SalaCine nuevaSalaCine(String numero, String nombre, int cantSillas){
         
@@ -151,6 +214,7 @@ public class Controlador {
 
         return nuevaSalaCine;
     }
+    //nuevaSalaCine
 
     public Cartelera nuevaCartelera(LocalDateTime fecha, ArrayList<Pelicula> listaPeliculas){
         
@@ -158,6 +222,7 @@ public class Controlador {
 
         return nuevaCartelera;
     }
+    //nuevaCartelera
 
     public Funcion nuevaFuncion(String hora, int dia, Pelicula objPelicula, SalaCine objSalaCine){
         
@@ -165,6 +230,7 @@ public class Controlador {
 
         return nuevaFuncion;
     }   
+    //nuevaFuncion
 
     public Pelicula nuevaPelicula(byte id, int duracion, String paisOrigen, String año, String tituloOriginal, String idioma,
     String sinopsis, boolean subtitulos, ArrayList<Realizador> listaRealizadores){
@@ -173,6 +239,7 @@ public class Controlador {
 
         return nuevaPelicula;
     }
+    //nuevaFuncion
 
     public Director nuevoDirector(String nombre, String nacioalidad, int cantPeliculas){
         
@@ -180,6 +247,7 @@ public class Controlador {
 
         return nuevoDirector;
     }
+    //nuevoDirector
 
     public Actor nuevoActor(String nombre, String nacioalidad, int cantPeliculas){
         
@@ -187,7 +255,8 @@ public class Controlador {
 
         return nuevoActor;
     }
-
+    //nuevoActor
+    
     public void recorrerSucursales(String nombrePelicula) {
         boolean peliculaEncontrada = false;
         
@@ -219,7 +288,7 @@ public class Controlador {
             Vista.mostrarMensaje("La película '" + nombrePelicula + "' no está disponible en ninguna sucursal.");
         }
     }
-    //mostrarSucursalesConPelicula
+    //recorrerSucursales
 
     public void crearEjemplos() {
 
@@ -273,6 +342,6 @@ public class Controlador {
         }
         //for
     }
-    //crearEjemplosCine
+    //crearEjemplos
 }
 //class
