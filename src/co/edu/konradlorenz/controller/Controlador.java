@@ -194,6 +194,11 @@ public class Controlador {
             for (int j = 0; j < listaSucursales.get(i).getListaSalasCine().size() ; j++) {
                 Vista.mostrarMensaje(" >> Número de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNumero() + ", Nombre de sala: " + listaSucursales.get(i).getListaSalasCine().get(j).getNombre() + ", Sillas disponibles: " + listaSucursales.get(i).getListaSalasCine().get(j).getCantSillas());
             }
+
+            double descuento = listaSucursales.get(i).getDescuento();
+            String descripcion = listaSucursales.get(i).getDescripcion();
+            Vista.mostrarMensaje(listaSucursales.get(i).calcPromo(descuento, descripcion));
+            
         }
         Vista.mostrarMensaje("\n <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>");
     }
@@ -313,6 +318,7 @@ public class Controlador {
         listaPeliculasGlobales.add(pelicula3);
 
         String nombreSucursales[] = {"Plus","Mayor","Atlantis","Eden","Plaza Mayor","Embajador","Tron"};
+        String decripcionesSucursales[] = {"Papitas","Familiar","Tortolos","Amigos","Casi Algo","Premium","Solitario"};
         
         // Crear 7 Sucursales
         for (int i = 1; i <= 7; i++) {
@@ -336,7 +342,7 @@ public class Controlador {
             listaFunciones.add(nuevaFuncion("21:00", 1, pelicula3, listaSalas.get(2)));
 
             // Crear Sucursal con los datos
-            Sucursal nuevaSucursal = nuevaSucursal("CineMoc " + nombreSucursales[i-1], "Dirección " + i, "Teléfono " + i, "Descripción " + i, 0.1 * i, cartelera, listaSalas, listaFunciones);
+            Sucursal nuevaSucursal = nuevaSucursal("CineMoc " + nombreSucursales[i-1], "Dirección " + i, "Teléfono " + i, "Combo " + decripcionesSucursales[i-1], 500 * 0.1 * i, cartelera, listaSalas, listaFunciones);
             listaSucursales.add(nuevaSucursal);
             
         }

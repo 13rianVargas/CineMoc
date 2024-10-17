@@ -96,8 +96,9 @@ public class Sucursal implements Promocion{
 	}
 
 	@Override
-	public void calcPromo(double descuento, String descripcion) {
-		
+	public String calcPromo(double descuento, String descripcion) {
+		String promocion = " >> El " + descripcion + " -> tiene una promoción de: $" + descuento;
+		return promocion;
 	}
 
 }
